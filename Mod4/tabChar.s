@@ -12,11 +12,11 @@ main:
 
 
 	ldr	r0, =formatString
-	ldr	r1, =num
+	ldr	r1, =numbers
 	bl	scanf
 
 	ldr 	r0, = outString
-	ldr	r1, = num
+	ldr	r1, = numbers
 	ldr	r1, [r1]
 	bl	printf
 
@@ -27,10 +27,13 @@ main:
 
 
 .data
+	
 	inString: .asciz "Enter a number: "
 	formatString: .asciz "%d"
 	outString: .asciz "Here is your number:\t %d \t seperated by tabs! \n"
-	num: .word 0
+
+	.global numbers
+	numbers: .word 0
 
 
 
