@@ -1,29 +1,39 @@
+@ main.s
+@ Prompts for input and tests each function in libFunctions.s:
+@   miles2kilometer, kph, CToF, InchesToFt
+@ All I/O goes through the C library (printf / scanf).
+
 .text
 .global main
-
-@ main: prompts for input and tests each function in libFunctions.s
 main:
-	sub	sp, sp, #8		@ keep stack 8-byte aligned for printf/scanf
+	sub	sp, sp, #8		@ make room on the stack (8 keeps it aligned)
 	str	lr, [sp, #0]		@ save lr
 
 	@ ---------- miles -> kilometers ----------
-	ldr	r0, =pmiles
+	ldr	r0, =pmiles		@ prompt for miles
 	bl	printf
 
 	ldr	r0, =sformat
-	ldr	r1, =miles		@ scanf needs the ADDRESS
+	ldr	r1, =miles		@ scanf needs the ADDRESS of miles
 	bl	scanf
 
 	ldr	r0, =miles
 	ldr	r0, [r0]		@ r0 = value of miles
-	bl	miles2kilometer		@ r0 = km
+	bl	miles2kilometer		@ r0 = kilometers
 
 	mov	r1, r0			@ km goes in r1 for printf
 	ldr	r0, =pkm
 	bl	printf
 
 	@ ---------- kilometers per hour ----------
-	ldr	r0, =phours
+	ldr	r0, =pmiles		@ prompt for miles
+	bl	printf
+
+	ldr	r0, =sformat
+	ldr	r1, =miles
+	bl	scanf
+
+	ldr	r0, =phours		@ prompt for hours
 	bl	printf
 
 	ldr	r0, =sformat
@@ -31,9 +41,9 @@ main:
 	bl	scanf
 
 	ldr	r0, =hours
-	ldr	r0, [r0]		@ r0 = hours
+	ldr	r0, [r0]		@ r0 = hours (first argument)
 	ldr	r1, =miles
-	ldr	r1, [r1]		@ r1 = miles (reuses the miles entered above)
+	ldr	r1, [r1]		@ r1 = miles (second argument)
 	bl	kph			@ r0 = km / hours
 
 	mov	r1, r0
@@ -41,7 +51,7 @@ main:
 	bl	printf
 
 	@ ---------- Celsius -> Fahrenheit ----------
-	ldr	r0, =pcelsius
+	ldr	r0, =pcelsius		@ prompt for celsius
 	bl	printf
 
 	ldr	r0, =sformat
@@ -49,7 +59,7 @@ main:
 	bl	scanf
 
 	ldr	r0, =celsius
-	ldr	r0, [r0]
+	ldr	r0, [r0]		@ r0 = celsius
 	bl	CToF			@ r0 = fahrenheit
 
 	mov	r1, r0
@@ -57,7 +67,7 @@ main:
 	bl	printf
 
 	@ ---------- inches -> feet ----------
-	ldr	r0, =pinches
+	ldr	r0, =pinches		@ prompt for inches
 	bl	printf
 
 	ldr	r0, =sformat
@@ -65,7 +75,7 @@ main:
 	bl	scanf
 
 	ldr	r0, =inches
-	ldr	r0, [r0]
+	ldr	r0, [r0]		@ r0 = inches
 	bl	InchesToFt		@ r0 = whole feet
 
 	mov	r1, r0
@@ -79,7 +89,7 @@ main:
 
 .data
 pmiles:		.asciz "Enter miles: "
-phours:		.asciz "Enter hours (to get km/h for the miles above): "
+phours:		.asciz "Enter hours: "
 pcelsius:	.asciz "Enter degrees Celsius: "
 pinches:	.asciz "Enter inches: "
 
@@ -97,7 +107,3 @@ celsius:	.word 0
 inches:		.word 0
 
 @ End main
-
-
-
-
