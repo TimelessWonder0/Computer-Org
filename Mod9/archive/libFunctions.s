@@ -122,8 +122,7 @@ findMAXOf3:
 
 @intialize r3 as r0, do Cmp against the next and the next
 
-	ldr 	r3, r0
-	ldr	r3, [r3]
+	mov 	r3, r0
 
 	cmp	r1, r3
 	movgt	r3, r1
@@ -152,31 +151,31 @@ Grade:
 
 @input is grade in r0
 	cmp	r0, #100
-	movgt	error
+	bgt	error
 
 	cmp	r0, #0
-	movlt	error
+	blt	error
 
 	cmp	r0, #90
-	movge	r0, #A
-	movge	end	
+	movge	r0, #'A'
+	bge	G_end	
 
 	cmp	r0, #80
-	movge	r0, #B
-	movge	end
+	movge	r0, #'B'
+	bge	G_end
 
 	cmp	r0, #70
-	movge	r0, #C
-	movge 	end
+	movge	r0, #'C'
+	bge 	G_end
 
-	mov	r0, #F
-	mov	end
+	mov	r0, #'F'
+	bge	G_end
 
 
 error:
 	mov	r0, #-1
 
-end:
+G_end:
 
 	ldr	lr, [sp, #0]
 	add	sp, sp, #4
