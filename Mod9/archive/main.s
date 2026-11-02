@@ -19,7 +19,7 @@
 
 	pName: .asciz "Enter a Name: "
 	pGrade: .asciz "Enter a Grade: "
-	name: .asciz "aaaaaaa"
+	name: .space 40
 	grade: .word 0
 	fstr: .asciz "%s"
 	fint: .asciz "%d"
@@ -137,7 +137,7 @@ gradeErr:
 gradeGood:
 
 
-	ldr	r0, #0
+	mov	r0, #0
 
 	ldr	lr, [sp,#0]
 	add	sp, sp, #4
