@@ -1,29 +1,30 @@
 
 .data
-	ialpha: .asciz 
-	falpha: .asciz "%c"
+	inchar: .word 0 
+	falpha: .asciz " %c"
 	palpha: .asciz "Enter a Character:\n"
 	yes: .asciz "Y"
 	no: .asciz "N"
-	outStr: .asciz "alphabetic char: %c"
+	outStr: .asciz "alphabetic char: %s\n"
 
 
 	fmax: .asciz "%d %d %d"
-	pMax: .asciz "Enter 3 integers seperated by a space: "
+	pMax: .asciz "Enter 3 integers separated by a space: "
 	val1: .word 0
 	val2: .word 0
 	val3: .word 0
-	outstr: .asciz "The Max value is: %d"
+	outstr: .asciz "The Max value is: %d\n"
 	
 
 
 	pName: .asciz "Enter a Name: "
 	pGrade: .asciz "Enter a Grade: "
-	name: .asciz 
+	name: .asciz "aaaaaaa"
 	grade: .word 0
 	fstr: .asciz "%s"
 	fint: .asciz "%d"
-	outstr: .asciz "%s has a(n) %c"
+	outgrade: .asciz "%s has a(n) %c\n"
+	errGrade: .asciz "Invalid score\n"
 
 
 .text
@@ -38,10 +39,10 @@ main:
 	bl	printf
 
 	ldr	r0, = falpha
-	ldr	r1, = isalpha
+	ldr	r1, = inchar
 	bl	scanf
 
-	ldr	r0, = isalpha
+	ldr	r0, = inchar
 	ldr	r0, [r0]
 	bl	ChkAlphaLOG
 
@@ -59,12 +60,21 @@ main:
 	bl	printf
 
 	ldr 	r0, = falpha
-	ldr	r1, = isalpha
+	ldr	r1, = inchar
 	bl	scanf
 
-	ldr 	r0, = isalpha
+	ldr 	r0, = inchar
 	ldr	r0, [r0]
 	bl	ChkAlphaNOLOG
+
+	cmp	r0, #0
+	ldrgt	r1, = yes
+	ldrle	r1, =no
+
+	ldr	r0, = outStr
+	bl	printf
+
+
 	
 @test findMAXOf3
 	ldr 	r0, = pMax
@@ -110,11 +120,24 @@ main:
 	ldr	r0, [r0]
 	bl	Grade
 
+	cmp	r0, #0
+	blt 	gradeErr
+
 	mov	r2, r0
-	ldr	r0, = outStr
+	ldr	r0, = outgrade
 	ldr	r1, = name
 	bl	printf
+	b	gradeGood
 
+
+gradeErr:
+	ldr	r0, =errGrade  
+   	bl	printf
+
+gradeGood:
+
+
+	ldr	r0, #0
 
 	ldr	lr, [sp,#0]
 	add	sp, sp, #4
