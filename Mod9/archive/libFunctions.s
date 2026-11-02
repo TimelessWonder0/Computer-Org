@@ -169,7 +169,7 @@ Grade:
 	bge 	G_end
 
 	mov	r0, #'F'
-	bge	G_end
+	blt	G_end
 
 
 error:
