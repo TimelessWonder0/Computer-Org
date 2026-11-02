@@ -14,8 +14,7 @@ ChkAlphaLOG:
 
 @r0 contains the char, I need to test to see if its a letter. 
 
-	ldr 	r1, r0
-	ldr 	r1, [r1]
+	mov 	r1, r0
 
 @load up the comparison values
 	mov	r0, #0
@@ -23,11 +22,11 @@ ChkAlphaLOG:
 
 @r1 greater than A
 	cmp	r1, #0x41
-	addgt	r0, #1
+	addge	r0, #1
 
 @r1 less than Z
 	cmp 	r1, #0x5A
-	addlt	r2, #1
+	addle	r2, #1
 
 @make sure both are true
 	and	r0, r0, r2
@@ -38,11 +37,11 @@ ChkAlphaLOG:
 
 @r1 greater than a
 	cmp	r1, #0x61
-	addgt	r2, #1
+	addge	r2, #1
 
 @r1 less than z
 	cmp	r1, #0x7A
-	addlt	r3, #1
+	addle	r3, #1
 
 @make sure both are true
 	and	r2, r2, r3
@@ -79,11 +78,11 @@ ChkAlphaNOLOG:
 	cmp	r0, #0x5A
 	ble	alpha
 
-@not below A
+@not below a
 	cmp	r0, #0x61
 	blt	notAlpha
 
-@below Z
+@below z
 	cmp	r0, #0x7A
 	ble	alpha
 
@@ -112,8 +111,8 @@ end:
 
 
 .text
-.global findMAXof3
-findMAXof3:
+.global findMAXOf3
+findMAXOf3:
 
 	sub	sp, sp, #4
 	str	lr, [sp,#0]
@@ -133,7 +132,6 @@ findMAXof3:
 	movgt	r3, r2
 
 	mov	r0, r3
-	mov	r0, [r0]
 
 @load lr
 	ldr	lr, [sp, #0]
@@ -143,7 +141,6 @@ findMAXof3:
 @END findMAXof3
 
 .data
-	fstring: .asciz "The number is not between 0 and 100/n"
 
 .text
 .global Grade
@@ -161,24 +158,23 @@ Grade:
 	movlt	error
 
 	cmp	r0, #90
-	movgt	r0, #A
-	movgt	end	
+	movge	r0, #A
+	movge	end	
 
 	cmp	r0, #80
-	movgt	r0, #B
-	movgt	end
+	movge	r0, #B
+	movge	end
 
 	cmp	r0, #70
-	movgt	r0, #C
-	movgt 	end
+	movge	r0, #C
+	movge 	end
 
 	mov	r0, #F
 	mov	end
 
 
 error:
-	ldr	r0, = fstring
-	bl	printf
+	mov	r0, #-1
 
 end:
 
