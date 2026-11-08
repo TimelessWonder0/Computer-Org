@@ -7,8 +7,8 @@
     @ ---- Strings ----
     mStr:    .asciz "\nEnter the Maximum Value: "
     gStr:    .asciz "\nEnter your Guess: "
-    eStr:    .asciz "\nYou are correct! the answer is %d you got it in %d tries!"
-    errStr:  .asciz "\nError: the maximum value must be at least 1."
+    eStr:    .asciz "\nYou are correct! the answer is %d you got it in %d tries!\n"
+    errStr:  .asciz "\nError: the maximum value must be at least 1.\n"
     higher:  .asciz "\nToo Low"           @ shown when the guess is below the answer
     lower:   .asciz "\nToo High"          @ shown when the guess is above the answer
 
